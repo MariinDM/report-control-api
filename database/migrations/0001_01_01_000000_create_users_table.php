@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('description');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
         
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('role_id');
+            $table->boolean('active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         
