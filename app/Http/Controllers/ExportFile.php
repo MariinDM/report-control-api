@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Spreadsheet; 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx; 
 use PhpOffice\PhpSpreadsheet\Style\Alignment; 
@@ -13,7 +14,6 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class ExportFile extends Controller
 {
-
     public function export(Request $request)
     {
 
@@ -47,7 +47,6 @@ class ExportFile extends Controller
                 ],
             ],
         ];
-        
 
         $type = $request->input('type');
         $name = $type === 'products' ? 'Productos' : 'Usuarios';
@@ -72,15 +71,15 @@ class ExportFile extends Controller
             $sheet->getStyle('A' . ($key + 2) . ':' . $sheet->getHighestColumn() . ($key + 2))->applyFromArray($dataStyleArray);
         }
 
-        $writer = new Xlsx($spreadsheet); 
-        $writer->save($name.'-'.$date.'.xlsx');
+        $writer = new Xlsx($spreadsheet);  
+        $path = 'public/excel/'.$name.'-'.$date.'.xlsx';
+        $writer->save(storage_path('app/'.$path));
 
         return response()->json([
             'message' => 'File exported successfully',
             'data' => null,
         ]);
     }
-
     private function getType($type)
     {
         $role_id = auth()->user()->role_id;
@@ -109,7 +108,6 @@ class ExportFile extends Controller
             }
         }
     }
-
     private function formatData($type,$data)
     {
         if ($type === 'products') {
@@ -137,7 +135,6 @@ class ExportFile extends Controller
         }
         return null;
     }
-
     private function getHeaders($data) { 
         return array_keys($data[0]); 
     } 
