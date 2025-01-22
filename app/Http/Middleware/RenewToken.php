@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Laravel\Sanctum\PersonalAccessToken;
+use Log;
 
 class RenewToken
 {

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Auth;
 use Closure;
 use Illuminate\Http\Request;
+use Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
@@ -16,9 +17,6 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {   
-
-        dump($request->user());
-
         if ($request->user()->role_id !== 1) {
             return response()->json(
                 data:[
