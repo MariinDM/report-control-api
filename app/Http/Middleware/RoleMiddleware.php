@@ -16,6 +16,9 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {   
+
+        dump($request->user());
+
         if ($request->user()->role_id !== 1) {
             return response()->json(
                 data:[

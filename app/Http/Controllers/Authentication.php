@@ -15,8 +15,13 @@ class Authentication extends Controller
         ]);
 
         if (!auth()->attempt($data)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json([
+              'message' => 'Credenciales Incorrectas',
+              'data'=> null
+            ], 400);
         }
+
+        $user = Auth::user();
 
         $token = Auth::user()->createToken(
             name: 'token',
@@ -25,15 +30,16 @@ class Authentication extends Controller
       
           return response()
             ->json(
-              data: [
-                'message' => 'Login successful',
+               [
+                'message' => 'Inicio de sesión exitoso',
                 'data' => [
                   'type' => 'Bearer',
                   'token' => $token->plainTextToken,
                   'expires_at' => $token->accessToken->expires_at->format('Y-m-d H:i:s'),
                 ],
+                'user' => $user,
               ],
-              status: 200
+               200
             );
     }
 
@@ -44,11 +50,11 @@ class Authentication extends Controller
         if (!$user) {
             return response()
             ->json(
-                data: [
-                'message' => 'Unauthorized',
+                 [
+                'message' => 'Sin autorización',
                 'data' => null,
                 ],
-                status: 401
+                 401
             );
         }
 
@@ -56,11 +62,11 @@ class Authentication extends Controller
 
         return response()
         ->json(
-            data: [
-            'message' => 'Logout successful',
+             [
+            'message' => 'Sesión cerrada',
             'data' => null,
             ],
-            status: 200
+             200
         );
     }
 }

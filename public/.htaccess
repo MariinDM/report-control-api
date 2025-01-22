@@ -3,6 +3,12 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteBase /public
+        RewriteRule ^(.*)$ public/$1 [L,NC]
+    </IfModule>
+
     RewriteEngine On
 
     # Handle Authorization Header

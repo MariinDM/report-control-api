@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\User;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Spreadsheet; 
@@ -72,13 +73,22 @@ class ExportFile extends Controller
         }
 
         $writer = new Xlsx($spreadsheet);  
-        $path = 'public/excel/'.$name.'-'.$date.'.xlsx';
-        $writer->save(storage_path('app/'.$path));
+        $fileName = $name.'-'.$date.'.xlsx'; 
+        $filePath = storage_path('app/public/excel/'.$fileName);
+        if (!File::exists(storage_path('app/public/excel'))) { 
+            File::makeDirectory(storage_path('app/public/excel'), 0755, true); 
+        } 
+        $writer->save($filePath); return response()->download($filePath);
 
-        return response()->json([
-            'message' => 'File exported successfully',
-            'data' => null,
-        ]);
+        // $path = 'public/excel/'.$name.'-'.$date.'.xlsx';
+        // $writer->save(storage_path('app/'.$path));
+
+        // return Storage::download($path);
+
+        // return response()->json([
+        //     'message' => 'File exported successfully',
+        //     'data' => null,
+        // ]);
     }
     private function getType($type)
     {
