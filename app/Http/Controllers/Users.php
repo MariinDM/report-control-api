@@ -22,7 +22,6 @@ class Users extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'password' => 'required',
             'role_id' => 'required',
         ]);
 
@@ -44,7 +43,6 @@ class Users extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'password' => 'required',
             'role_id' => 'required',
         ]);
 

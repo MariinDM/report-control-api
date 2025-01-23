@@ -93,10 +93,11 @@ class ExportFile extends Controller
     private function getType($type)
     {
         $role_id = auth()->user()->role_id;
+        $user_id = auth()->user()->id;
 
         if($role_id === 2) {
             if ($type === 'products') { 
-                $products = Product::with('user')->where('user_id', '=', $role_id)->get(); 
+                $products = Product::with('user')->where('user_id', '=', $user_id)->get(); 
                 return $this->formatData($type,$products)->toArray();  
             } else { 
                 return response()->json([ 
