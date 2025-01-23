@@ -31,6 +31,7 @@ class Products extends Controller
             }
         
             $product->image_url = url( 'storage/'.$product->image);
+            $product->imageBase64 = 'data:image/jpeg;base64,'.base64_encode(Storage::disk('public')->get($product->image));
         }
 
         return response()->json([
